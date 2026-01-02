@@ -20,17 +20,17 @@ load_dotenv()
 
 # Configure logging
 logging.basicConfig(
-    level=logging.WARN,  # Change to INFO level to show more details
+    level=logging.INFO,  # Show more details including HTTP requests
     format='%(asctime)s - %(levelname)s - %(message)s',
 )
 logger = logging.getLogger(__name__)
 
-# Configure uvicorn to be quieter
+# Configure uvicorn logging
 import uvicorn
-# Tell uvicorn's loggers to be quiet
-logging.getLogger("uvicorn").setLevel(logging.WARNING)
-logging.getLogger("uvicorn.access").setLevel(logging.WARNING)
-logging.getLogger("uvicorn.error").setLevel(logging.WARNING)
+# Enable HTTP request logging
+logging.getLogger("uvicorn.access").setLevel(logging.INFO)
+logging.getLogger("uvicorn.error").setLevel(logging.INFO)
+logging.getLogger("uvicorn").setLevel(logging.INFO)
 
 # Create a filter to block any log messages containing specific strings
 class MessageFilter(logging.Filter):
@@ -38,7 +38,6 @@ class MessageFilter(logging.Filter):
         # Block messages containing these strings
         blocked_phrases = [
             "LiteLLM completion()",
-            "HTTP Request:", 
             "selected model name for cost calculation",
             "utils.py",
             "cost_calculator"
