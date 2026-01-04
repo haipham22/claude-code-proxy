@@ -99,6 +99,8 @@ PREFERRED_PROVIDER = os.environ.get("PREFERRED_PROVIDER", "openai").lower()
 BIG_MODEL = os.environ.get("BIG_MODEL", "gpt-4.1")
 SMALL_MODEL = os.environ.get("SMALL_MODEL", "gpt-4.1-mini")
 
+ANTHROPIC_BASE_URL = os.environ.get("ANTHROPIC_BASE_URL")
+
 # List of OpenAI models
 OPENAI_MODELS = [
     "o3-mini",
@@ -1142,7 +1144,10 @@ async def create_message(
         else:
             litellm_request["api_key"] = ANTHROPIC_API_KEY
             logger.debug(f"Using Anthropic API key for model: {request.model}")
-        
+
+            if ANTHROPIC_BASE_URL:
+                litellm_request["api_base"] = ANTHROPIC_BASE_URL
+
         # For OpenAI models - modify request format to work with limitations
         if "openai" in litellm_request["model"] and "messages" in litellm_request:
             logger.debug(f"Processing OpenAI model request: {litellm_request['model']}")

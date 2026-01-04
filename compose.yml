@@ -1,6 +1,6 @@
 services:
   proxy:
-    image: haipham22/claude-code-proxy:latest
+#    image: haipham22/claude-code-proxy:latest
     build: .
     restart: unless-stopped
     env_file: .env
