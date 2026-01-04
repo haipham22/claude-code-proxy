@@ -1,0 +1,8 @@
+services:
+  proxy:
+    image: haipham22/claude-code-proxy:latest
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - 8082:8082
